@@ -86,7 +86,7 @@ imgC = zeros(size(img,1), size(img, 2));
 imgC(max(img, [], size(img,3)) > threshold) = 1;
 
 e_map = bilateralFilter(imgC, L, 0, 1, ko_sigma_s, ko_sigma_r);
-e_map = e_map * 3.0 + 1;
+e_map = (e_map * 3.0 + 1) / 4;
 
 %compute expanded luminance
 Lexp = L * (ko_display_max - ko_display_min) + ko_display_min;
