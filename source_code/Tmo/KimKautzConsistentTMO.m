@@ -77,8 +77,8 @@ k1 = (maxLd - minLd) / (maxL - minL);
 d0 = maxL / minL;
 sigma = d0 / KK_c1;
 
-sigma2 = (sigma^2) * 2;
-w = exp(-(L - mu).^2 / sigma2);
+sigma_sq_2 = (sigma^2) * 2;
+w = exp(-(L_log - mu).^2 / sigma_sq_2);
 k2 = (1 - k1) * w + k1;
 
 Ld = exp(KK_c2 * k2 .* (L_log - mu) + mu);
