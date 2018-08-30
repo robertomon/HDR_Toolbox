@@ -74,7 +74,7 @@ minLd = log(Ld_min);
 
 k1 = (maxLd - minLd) / (maxL - minL);
 
-d0 = maxL / minL;
+d0 = maxL - minL;
 sigma = d0 / KK_c1;
 
 sigma_sq_2 = (sigma^2) * 2;
