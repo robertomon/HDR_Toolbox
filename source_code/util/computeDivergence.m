@@ -32,8 +32,8 @@ if(~exist('I_gx', 'var') || ~exist('I_gy', 'var'))
     error('Gradients are needed to compute divergence');
 end
 
-kernelX = [0,0,0; -1,1,0;  0, 0,0];
-kernelY = [0,0,0;  0,1,0;  0,-1,0];
+kernelX = [0 0 0; -1 1 0; 0  0 0];
+kernelY = [0 0 0;  0 1 0; 0 -1 0];
 
 I_dx = imfilter(I_gx, kernelX, 'same');
 I_dy = imfilter(I_gy, kernelY, 'same');

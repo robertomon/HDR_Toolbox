@@ -1,7 +1,7 @@
-function pivot = SplittingHistogram(histo)
+function pivot = splitHistogramInTwos(histo)
 %
 %
-%        pivot = SplittingHistogram(histo)
+%        pivot = splitHistogramInTwos(histo)
 %
 %
 %        Input:
