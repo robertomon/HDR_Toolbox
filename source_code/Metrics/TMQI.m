@@ -126,8 +126,8 @@ L_hdr = double(round((2^32 - 1)/(lmax - lmin)).*(L_hdr - lmin));
 L_ldr = lum(double(ldrImage));
 lmax = max(L_ldr(:));
 if(lmax <= 1.0)
-    warning(['It seems this is a normalized LDR image with values in [0,1].'
-        'This means that the algorithm will produce wrong results.'
+    warning(['It seems this is a normalized LDR image with values in [0,1].', ...
+        'This means that the algorithm will produce wrong results.', ...
         'If this is the case please multiply ldrImage by 255']);
 end
 

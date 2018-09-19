@@ -31,14 +31,14 @@ function imgBin = CreateSegments(img)
 
 L = lum(img);
 
-%Filtering the image to avoid noise
+%filter the image to avoid noise
 L = filterGaussian(L, 1);
 
-%Lmax, Lmin
+%compute Lmin and Lmax
 Lmin = min(L(L > 0.0));
 Lmax = max(L(:));
 
-%Max and Min in log10
+%compute min and max in log10
 l10Min = log10(Lmin);
 l10Max = log10(Lmax);
 
@@ -46,7 +46,7 @@ l10Max = log10(Lmax);
 sMin = sign(l10Min);
 sMax = sign(l10Max);
 
-%Discretization
+%discretize
 if(sMin > 0)
     l10Min = sMin * floor(abs(l10Min));
 else
@@ -64,20 +64,20 @@ imgBin = zeros(size(L));
 [n,m]   = size(L);
 nLevels = l10Max - l10Min + 1;
 
-for i=l10Min:l10Max %skimming levels
+for i=l10Min:l10Max %skim levels
     bMin = 10^i;
     bMax = 10^(i + 1);   
     imgBin(L >= bMin & L < bMax) = i - l10Min + 1;
 end
 
-%Number of pixels
+%compute the number of pixels
 areaTot = n * m;
 
-%Thresholds
+%set thresholds
 threshold = 0.005;
 perCent = round(threshold * areaTot);
 
-%Merging layers...
+%merge layers...
 imgOri    = imgBin;
 imgBinOld = imgBin;
 for LOOP=1:100
@@ -92,10 +92,10 @@ for LOOP=1:100
             [yy, xx] = size(r);
             tot = xx * yy;
         
-            %Is it a small CC?
+            %is it a small CC?
             if(tot < perCent && tot > 0)
                 listOfNeighbors   = FindNeighbours(i, r , c, tot, imgBin);
-                [imgBin, nlv] = FusionMask(listOfNeighbors, comp, imgBin,j);
+                [imgBin, nlv] = computeFusionMask(listOfNeighbors, comp, imgBin,j);
                 
                 if(nlv > 0)%Update
                     %clear('layer');
@@ -106,7 +106,7 @@ for LOOP=1:100
         end
     end
     
-    %Check for ending
+    %check for ending
     delta = imgBinOld - imgBin;    
     val   = abs(sum(delta(:)));
     if(val < 1e-4)
@@ -117,18 +117,14 @@ for LOOP=1:100
     end
 end
 
-%Sanity check
+%sanity check
 for i=1:nLevels
     indx = find(imgBin == i);
     if(~isempty(indx))
         val = round(mean(imgOri(indx)));
         imgBin(indx) = val;
-        %disp([i,val]);
     end
 end
-
-%clear('layer');
-%clear('comp');
 
 imgBin = imgBin + l10Min - 1;
 

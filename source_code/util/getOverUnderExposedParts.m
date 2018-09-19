@@ -1,17 +1,19 @@
-function mask = getOverUnderExposedParts(img)
+function [mask, pO, pU] = getOverUnderExposedParts(img)
 %
 %
 %        mask = getOverUnderExposedParts(img)
 %
 %
 %        Input:
-%           -img: an image with values in [0,1]
+%           -img: an 8-bit image with values in [0,1]
 %
 %        Output:
 %   `       -mask: a mask with over-exposed pixels (1), and under-exposed
 %            pixels (-1)
+%           -pO: percentage of over-exposed pixels
+%           -pU: percentage of under-exposed pixels
 % 
-%     Copyright (C) 2015  Francesco Banterle
+%     Copyright (C) 2015-18  Francesco Banterle
 %
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -38,5 +40,9 @@ under_exp = min(img, [], 3);
 mask = zeros(r, c);
 mask(over_exp >= toe) = 1;
 mask(under_exp <= tue) = -1;
+
+nPixels = r * c;
+pO = length(find(mask > 0.5))  / nPixels;
+pU = length(find(mask < -0.5)) / nPixels;
     
 end

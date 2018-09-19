@@ -1,17 +1,20 @@
-function imgLabel = CompoCon(img,type)
+function [imgBin, nlv] = computeFusionMask(listOfNeighbors, comp, imgBin, j)
 %
 %
-%       imgLabel = CompoCon(img,type)
+%        [imgBin, nlv] = computeFusionMask(listOfNeighbors, comp, imgBin, j)
 %
 %
-%        Input:
-%           -img: an integer grayscale image
-%           -type: 4, 8: the connetion type
+%       Input:
+%           -listOfNeighbors:
+%           -comp:
+%           -imgBin:
+%           -j: 
 %
-%        Output:
-%           -imgLabel: labeled image
-%
-%     Copyright (C) 2011-2016  Francesco Banterle
+%       Output:
+%           -imgBin:
+%           -nlv: 
+% 
+%     Copyright (C) 2013  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -27,21 +30,10 @@ function imgLabel = CompoCon(img,type)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-imgLabel = zeros(size(img));
+nlv = length(listOfNeighbors);
 
-lstVal = unique(img);
-n = length(lstVal);
-totLabels = 0;
-for i=1:n
-    indx = find(img == lstVal(i));   
-    if(~isempty(indx)) %binary image
-        imgTmp = zeros(size(img));
-        imgTmp(indx) = 1;
-        imgTmp2 = bwlabel(logical(imgTmp), type);
-        
-        imgLabel= imgLabel + (imgTmp2 + totLabels);
-        totLabels = totLabels+max(imgTmp2(:)) + 1;
-    end    
-end
+if(nlv > 0) %take the smallest cluster in the list for the merging step
+   imgBin(comp == j) = listOfNeighbors(1);
 end
 
+end

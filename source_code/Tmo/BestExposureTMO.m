@@ -32,7 +32,7 @@ check13Color(img);
 
 checkNegative(img);
 
-fstops = ExposureHistogramSampling(img, 8, 0);
+fstops = ExposureHistogramSampling(img, 8, 0.5);
 
 imgOut = ClampImg(img * 2^fstops(1), 0.0, 1.0);
 

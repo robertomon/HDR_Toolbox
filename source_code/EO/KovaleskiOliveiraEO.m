@@ -68,7 +68,7 @@ if(gammaRemoval > 0.0)
     threshold = threshold^gammaRemoval;
     ko_sigma_r = ko_sigma_r^gammaRemoval;
 else
-    warning(['gammaRemoval < 0.0; gamma removal has not been applied. '
+    warning(['gammaRemoval < 0.0; gamma removal has not been applied. ', ...
     'img is assumed to be linear.']);
 end
 
