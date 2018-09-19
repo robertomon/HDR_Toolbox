@@ -1,7 +1,7 @@
-function [divI, I_dx, I_dy] = CalculateDivergence(I_gx, I_gy)
+function [divI, I_dx, I_dy] = computeDivergence(I_gx, I_gy)
 %
 %
-%       [divI, I_dx, I_dy] = CalculateDivergence(I_gx, I_gy)
+%       [divI, I_dx, I_dy] = computeDivergence(I_gx, I_gy)
 %
 %       Input:
 %           -I_gx: an input image

@@ -1,7 +1,7 @@
-function I_g = CalculateGradients(I)
+function I_g = computeGradients(I)
 %
 %
-%       I_g = CalculateGradients(I)
+%       I_g = computeGradients(I)
 %
 %       Input:
 %           -I: an input image
@@ -9,7 +9,7 @@ function I_g = CalculateGradients(I)
 %       Output:
 %           -I_g: gradients of I
 %
-%     Copyright (C) 2011-15  Francesco Banterle
+%     Copyright (C) 2011-18  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by

@@ -28,17 +28,21 @@ function pivot = SplittingHistogram(histo)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-n     = length(histo);
+n  = length(histo);
 pivot = n;
-diff  = sum(histo) * 2;
+diff = sum(histo) * 2;
 
-for i=1:(n - 1)
-    s0 = sum(histo(1:i));
-    s1 = sum(histo((i + 1):end));
-    tmpDiff = abs(s1 - s0);
-    
-    if(tmpDiff < diff)
-        pivot = i;
-        diff  = tmpDiff;
-    end    
+if(diff > 0)
+    for i=1:(n - 1)
+        s0 = sum(histo(1:i));
+        s1 = sum(histo((i + 1):end));
+        tmpDiff = abs(s1 - s0);
+
+        if(tmpDiff < diff)
+            pivot = i;
+            diff  = tmpDiff;
+        end    
+    end
+end
+
 end

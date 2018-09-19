@@ -30,16 +30,16 @@ function layer = GenerateMasks(imgBin, nLevels)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-[r,c]   = size(imgBin);
-layer   = zeros(r,c,nLevels);
+[r, c] = size(imgBin);
+layer = zeros(r, c, nLevels);
 
 for i=1:nLevels    
-    indx = find(imgBin==i);
+    indx = find(imgBin == i);
     
     if(~isempty(indx))
-        tmpBin = zeros(r,c);
+        tmpBin = zeros(r, c);
         tmpBin(indx) = 1;
-        layer(:,:,i) = bwlabel(tmpBin,8); 
+        layer(:,:,i) = bwlabel(tmpBin, 8); 
     else
         layer(:,:,i) = 0;
     end

@@ -87,18 +87,17 @@ for LOOP=1:100
         comp = layer(:,:,i);
         nc = max(comp(:));
 
-        for j=1:nc %For each connected component (CC)
-            [r, c] = find(comp==j);
+        for j=1:nc %for each connected component (CC)
+            [r, c] = find(comp == j);
             [yy, xx] = size(r);
             tot = xx * yy;
         
             %is it a small CC?
             if(tot < perCent && tot > 0)
-                listOfNeighbors   = FindNeighbours(i, r , c, tot, imgBin);
+                listOfNeighbors   = findNeighbors(i, r , c, tot, imgBin);
                 [imgBin, nlv] = computeFusionMask(listOfNeighbors, comp, imgBin,j);
                 
-                if(nlv > 0)%Update
-                    %clear('layer');
+                if(nlv > 0)%update
                     layer = GenerateMasks(imgBin, nLevels);
                     comp  = layer(:,:,i);
                 end
@@ -109,8 +108,7 @@ for LOOP=1:100
     %check for ending
     delta = imgBinOld - imgBin;    
     val   = abs(sum(delta(:)));
-    if(val < 1e-4)
-        %disp([val,LOOP]);
+    if(val < 1e-4)        
         break;
     else
         imgBinOld = imgBin;
