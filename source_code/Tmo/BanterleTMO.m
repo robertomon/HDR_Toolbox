@@ -51,13 +51,15 @@ checkNegative(img);
 
 L = lum(img);
 
-if(~isempty(find(L > 3000, 1)))
-    warning(['The input image has values over 3,000 cd/m^2.'
+indx = find(L > 3000);
+if(~isempty(indx))
+    warning(['The input image has values over 3,000 cd/m^2. ', ...
         'These values were not tested in the original paper.']);
 end
 
-if(~isempty(find(L < 0.015, 1)))
-    warning(['The input image has values under 0.015 cd/m^2.'
+indx = find(L < 0.015);
+if(~isempty(indx))
+    warning(['The input image has values under 0.015 cd/m^2. ', ...
         'These values were not tested in the original paper.']);
 end
 

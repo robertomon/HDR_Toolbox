@@ -158,7 +158,7 @@ for i=2:col
     imgIPT(:,:,i) = imgIPT(:,:,i) .* scale; 
 end
 
-imgIPT(:,:,1) = normalizedGamma(imgIPT(:,:,1), KuangGamma(average_surrond_param));
+imgIPT(:,:,1) = NormalizedGamma(imgIPT(:,:,1), KuangGamma(average_surrond_param));
 
 %converting the image from IPT to RGB
 imgOut = ConvertRGBtoXYZ(ConvertXYZtoIPT(imgIPT, 1), 1); 
@@ -168,7 +168,7 @@ img_min = MaxQuart(imgOut, 0.01);
 img_max = MaxQuart(imgOut, 0.99);
 imgOut = ClampImg((imgOut - img_min) / (img_max - img_min), 0.0, 1.0);
 
-warning(['The output image has D65 as whitepoint.'
+warning(['The output image has D65 as whitepoint.', ...
     'This is fine if the image will be displayed using sRGB color space.']);
 
 end
