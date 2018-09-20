@@ -79,7 +79,7 @@ L = lum(img);
 
 switch(sampling_mode)
     case 'histogram'
-        stack_exposure = 2.^ExposureHistogramSampling(L, 8, 0);
+        stack_exposure = 2.^ExposureHistogramSampling(L, 8, 1);
         
     case 'uniform'
         minL = min(L(L > 0));
