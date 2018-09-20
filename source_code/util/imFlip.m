@@ -1,17 +1,17 @@
-function imgOut = BestExposureTMO(img)
+function imgOut = imFlip(img)
 %
-%        imgOut = BestExposureTMO(img)
+%        imgOut = imFlip(img)
 %
 %       
-%        Simple TMO, which divides an image by the best exposure
+%        imFlip flips an image left-right or viceversa.
 %
 %        Input:
-%           -img: input HDR image
+%           -img: an input image
 %
 %        Output:
-%           -imgOut: a tone mapped image
+%           -imgOut: a flipped version of img
 % 
-%     Copyright (C) 2010-15 Francesco Banterle
+%     Copyright (C) 2018 Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -27,13 +27,10 @@ function imgOut = BestExposureTMO(img)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-%is it a gray-scale/three color channels image?
-check13Color(img);
+imgOut = img;
 
-checkNegative(img);
-
-fstops = ExposureHistogramSampling(img.^(1.0/2.2), 8, 0.5);
-
-imgOut = ClampImg(img * 2^fstops(1), 0.0, 1.0);
+for i=1:size(img,3)
+    imgOut(:,:,i) = fliplr(imgOut(:,:,i));    
+end
 
 end
