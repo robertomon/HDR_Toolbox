@@ -38,11 +38,12 @@ if(nBit < 1)
 end
 
 if(~exist('eh_overlap', 'var'))
-    eh_overlap = 2.0;
+    eh_overlap = 0.0;
 end
 
-nBin = 4096;
 nBit_half = round(nBit / 2);
+
+nBin = 1024;
 
 fstops = [];
 [histo, bound, ~] = HistogramHDR(img, nBin, 'log2', [], 0, 0);

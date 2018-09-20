@@ -1,7 +1,7 @@
-function imgOut = DragoTMO(img, d_Ld_Max, d_b)
+function imgOut = DragoTMO(img, d_Ld_Max, d_b, bWarning)
 %
 %
-%        imgOut = DragoTMO(img, d_Ld_Max, d_b)
+%        imgOut = DragoTMO(img, d_Ld_Max, d_b, bWarning)
 %
 %
 %        Input:
@@ -46,6 +46,10 @@ if(~exist('d_b', 'var'))
     d_b = 0.85;
 end
 
+if(~exist('bWarning', 'var'))
+    bWarning = 1;
+end
+
 %compute luminance 
 L = lum(img);
 
@@ -64,6 +68,8 @@ Ld = p1 * p2;
 %change luminance
 imgOut = ChangeLuminance(img, L, Ld);
 
-disp('Note that tone mapped images with DragoTMO should be gamma corrected with function GammaDrago.m');
+if(bWarning)
+    warning('Note that tone mapped images with DragoTMO should be gamma corrected with function GammaDrago.m');
+end
 
 end

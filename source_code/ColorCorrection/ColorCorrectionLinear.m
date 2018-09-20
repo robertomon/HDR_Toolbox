@@ -50,7 +50,7 @@ end
 L = lum(img);
 imgOut = zeros(size(img));
 
-for i=1:size(img, 3);
+for i=1:size(img, 3)
     M = (img(:,:,i) ./ L);
     Mc = (M - 1.0) .* cc_s + 1.0;
     imgOut(:,:,i) = Mc .* L;
