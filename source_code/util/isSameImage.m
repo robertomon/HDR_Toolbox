@@ -1,7 +1,7 @@
-function same = isSameImage(img1, img2)
+function bSame = isSameImage(img1, img2)
 %
 %
-%       same = isSameImage(img1, img2)
+%       bSame = isSameImage(img1, img2)
 %
 %
 %       This image checks if two images are the same.
@@ -25,6 +25,6 @@ function same = isSameImage(img1, img2)
 [r1, c1, col1] = size(img1);
 [r2, c2, col2] = size(img2);
 
-same = ((r1 == r2) & (c1 == c2) & (col1 == col2));
+bSame = ((r1 == r2) & (c1 == c2) & (col1 == col2));
 
 end

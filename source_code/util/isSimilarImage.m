@@ -1,17 +1,12 @@
-function imgOut = BestExposureTMO(img)
+function bSimilar = isSimilarImage(img1, img2)
 %
-%        imgOut = BestExposureTMO(img)
 %
-%       
-%        Simple TMO, which divides an image by the best exposure
+%       bSimilar = isSimilarImage(img1, img2)
 %
-%        Input:
-%           -img: input HDR image
 %
-%        Output:
-%           -imgOut: a tone mapped image
-% 
-%     Copyright (C) 2010-15 Francesco Banterle
+%       This image checks if two images are the same.
+%
+%     Copyright (C) 2018  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -27,14 +22,9 @@ function imgOut = BestExposureTMO(img)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-%is it a gray-scale/three color channels image?
-check13Color(img);
+[r1, c1, ~] = size(img1);
+[r2, c2, ~] = size(img2);
 
-checkNegative(img);
-
-fstops = ExposureHistogramSampling(img.^(1.0/2.2), 8, 1);
-disp(fstops);
-
-imgOut = ClampImg(img * 2^fstops(1), 0.0, 1.0);
+bSimilar = (r1 == r2) & (c1 == c2);
 
 end

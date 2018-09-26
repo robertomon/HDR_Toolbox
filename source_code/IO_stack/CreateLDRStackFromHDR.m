@@ -79,7 +79,8 @@ L = lum(img);
 
 switch(sampling_mode)
     case 'histogram'
-        stack_exposure = 2.^ExposureHistogramSampling(L, 8, 1);
+        img_tmp = ApplyCRF(img, lin_type, lin_fun);
+        stack_exposure = 2.^ExposureHistogramSampling(img_tmp, 8, 1);
         
     case 'uniform'
         minL = min(L(L > 0));
@@ -90,7 +91,7 @@ switch(sampling_mode)
         end
         
         if(maxL <= (256 * minL))
-            error('CreateLDRStackFromHDR: There is no need of sampling; i.e., 8-bit dynamic range.');                        
+            warning('CreateLDRStackFromHDR: There is no need of sampling; i.e., 8-bit dynamic range.');                        
         end
 
         delta = 1e-6;

@@ -27,8 +27,15 @@ function imgOut = blendPoisson(img1, img2, mask)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-    I1 = img1 .* mask;
-    I2 = img2 .* (1 - mask);
+if(~isSameImage(img1, img2) || ~isSimilarImage(img1, weight))
+   error('pyrBlend: input images are different!'); 
+end
+
+imgOut = zeros(size(img1));
+
+for i=1:size(img1, 3)
+    I1 = img1(:,:,i) .* mask;
+    I2 = img2(:,:,i) .* (1 - mask);
 
     G1 = computeGradients(I1);
     G2 = computeGradients(I2);
@@ -36,6 +43,7 @@ function imgOut = blendPoisson(img1, img2, mask)
     [div_I1, ~, ~] = computeDivergence(G1.fx, G1.fy);
     [div_I2, ~, ~] = computeDivergence(G2.fx, G2.fy);
 
-    imgOut = PoissonSolver(div_I1 + div_I2);
-    
+    imgOut(:,:,i) = PoissonSolver(div_I1 + div_I2);
+end
+
 end

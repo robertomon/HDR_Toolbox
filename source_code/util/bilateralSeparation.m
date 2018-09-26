@@ -1,19 +1,30 @@
-function [Base, Detail] = bilateralSeparation(img, sigma_s, sigma_r)
+function [Base, Detail] = bilateralSeparation(img, sigma_s, sigma_r, bilateral_domain, bilateral_type)
 %
 %
-%       [Base, Detail] = bilateralSeparation(img, sigma_s, sigma_r)
+%       [Base, Detail] = bilateralSeparation(img, sigma_s, sigma_r, bilateral_domain, bilateral_type)
 %
 %
 %       Input:
 %           -img: input image
 %           -sigma_r: range sigma
 %           -sigma_s: spatial sigmatmp
+%           -bilateral_domain: domain of the values' computations
+%               'linear'
+%               'sigmoid'
+%               'log_2'
+%               'log_e'
+%               'log_10'
+%               
+%           -bilateral_type: 
+%               'full': slow but accurate
+%               'approx_bil_grid': fast approximation
+%               'approx_importance': fast approximation
 %
 %       Output:
 %           -Base: the low frequency image
 %           -Detail: the high frequency image
 %
-%     Copyright (C) 2011-15  Francesco Banterle
+%     Copyright (C) 2011-18  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -40,26 +51,72 @@ if(~exist('sigma_r', 'var'))
     sigma_r = 0.4;
 end
 
+if(~exist('bilateral_type', 'var'))
+   bilateral_type = 'approx_bil_grid'; 
+end
+
+if(~exist('bilateral_domain', 'var'))
+   bilateral_domain = 'log_10'; 
+end
+    
 %Base Layer
-img_log = log10(img + 1e-6);
+eps = 0.0;
+
+switch bilateral_domain
+    case 'sigmoid'
+        img_log = img ./ (img + 1);
+    case 'log2'
+        eps = 1e-6;
+        img_log = log2(img + eps);
+    case 'loge'
+        eps = 1e-6;
+        img_log = log(img + eps);
+    case 'log10'
+        eps = 1e-6;
+        img_log = log10(img + eps);
+    otherwise
+        img_log = img;
+end
 
 imgFil = zeros(size(img));
 
 try
-    for i=1:col
-        tmp = img_log(:,:,i);
-        imgFil(:,:,i) = bilateralFilter(tmp, [], min(tmp(:)), max(tmp(:)), sigma_s, sigma_r);
+    switch bilateral_type
+        case 'approx_bil_grid'
+            for i=1:col
+                tmp = img_log(:,:,i);
+                imgFil(:,:,i) = bilateralFilter(tmp, [], min(tmp(:)), max(tmp(:)), sigma_s, sigma_r);
+            end
+            
+        case 'approx_importance'
+            imgFil = bilateralFilterS(img_log, [], sigma_s, sigma_r);    
+            
+        otherwise
+            imgFil = bilateralFilterFull(img_log, [], sigma_s, sigma_r);
     end
 catch exception
     disp(['BilateralSeparation:', exception]);
 end
 
-Base = 10.^(imgFil) - 1e-6;
+switch bilateral_domain
+    case 'sigmoid'
+        Base = imgFil ./ (1 - imgFil);
+        Base(imgFil <= 0.0) = 0.0;
+    case 'log2'
+        Base = 2.^(imgFil) - eps;
+    case 'loge'
+        Base = exp(imgFil) - eps;
+    case 'log10'
+        Base = 10.^(imgFil) - eps;
+    otherwise
+        Base = imgFil;
+end
 
-%Removing 0
-Base(Base <= 0) = 0;
 
-%Detail Layer
-Detail = RemoveSpecials(img ./ Base);
+%compute the detail Layer
+Detail = img;
+Detail(Base > 0.0) = RemoveSpecials(img(Base > 0.0) ./ Base(Base > 0.0));
+
+Base(Base < 0.0) = 0.0;
 
 end

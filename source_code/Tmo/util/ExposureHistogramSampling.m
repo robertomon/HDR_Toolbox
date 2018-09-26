@@ -72,8 +72,8 @@ while(sum(histo) > 0)
         if(tSum > total)
             index = i;
             total = tSum;
-            ind_min = i_min;
-            ind_max = i_max;
+            ind_min = max([1, (i - removingBins_h)]);
+            ind_max = min([(i + removingBins_h), nBin]);
         end
     end
         

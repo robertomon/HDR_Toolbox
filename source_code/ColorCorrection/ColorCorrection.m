@@ -46,7 +46,7 @@ end
 L = lum(img);
 imgOut = zeros(size(img));
 
-for i=1:size(img, 3);
+for i=1:size(img, 3)
     imgOut(:,:,i) = ((img(:,:,i) ./ L).^cc_s) .* L;
 end
 
