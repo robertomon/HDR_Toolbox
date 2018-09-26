@@ -98,8 +98,14 @@ switch(sampling_mode)
         minExposure = floor(log2(maxL + delta));
         maxExposure = ceil( log2(minL + delta));
         
-        tMin = -(minExposure    );
-        tMax = -(maxExposure + 4);
+        tMin = -(minExposure);
+        tMax = -(maxExposure + 8);
+        
+        if(tMax < tMin)
+            tMin = -minExposure;
+            tMax = -maxExposure;            
+        end
+        
         stack_exposure = 2.^(tMin:fstops_distance:tMax);
         
     case 'selected'
