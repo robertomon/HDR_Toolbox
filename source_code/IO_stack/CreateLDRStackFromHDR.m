@@ -95,8 +95,8 @@ switch(sampling_mode)
         end
 
         delta = 1e-6;
-        minExposure = floor(log2(maxL + delta));
-        maxExposure = ceil( log2(minL + delta));
+        minExposure = floor(log2(maxL + delta) + 1);
+        maxExposure = ceil( log2(minL + delta) + 1);
         
         tMin = -(minExposure);
         tMax = -(maxExposure + 8);
