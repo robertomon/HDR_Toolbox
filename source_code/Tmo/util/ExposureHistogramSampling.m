@@ -53,7 +53,7 @@ if(eh_overlap > nBit_half)
     eh_overlap = 0.0;
 end
 
-removingBins = round((nBit_half - eh_overlap) / dMM);
+removingBins = (nBit / (1.0 / (2^nBit * dMM)) + eh_overlap);
 removingBins_h = round(removingBins / 2);
 
 
@@ -63,8 +63,7 @@ while(sum(histo) > 0)
     ind_min = -1;
     ind_max = -1;
 
-    for i=1:nBin
-        
+    for i=1:nBin        
         i_min = max([1, (i - removingBins_h)]);
         i_max = min([(i + removingBins_h), nBin]);
         tSum = sum(histo(i_min:i_max));
