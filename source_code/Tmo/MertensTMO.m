@@ -70,7 +70,7 @@ end
 
 if(~isempty(img)) %convert the HDR image into a imageStack
     checkNegative(img);
-    [imageStack, ~] = CreateLDRStackFromHDR(img, 1, 'uniform');
+    [imageStack, ~] = CreateLDRStackFromHDR(img, 1, 'histogram');
     
 else
     if(isa(imageStack, 'single'))
