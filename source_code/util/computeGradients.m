@@ -1,10 +1,15 @@
-function [X0,X1,Y0,Y1]=GenerateBBox(x,y,r,c,window)
+function I_g = computeGradients(I)
 %
 %
-%        [X0,X1,Y0,Y1]=GenerateBBox(x,y,r,c,window)
+%       I_g = computeGradients(I)
 %
+%       Input:
+%           -I: an input image
 %
-%     Copyright (C) 2011  Francesco Banterle
+%       Output:
+%           -I_g: gradients of I
+%
+%     Copyright (C) 2011-18  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -20,10 +25,12 @@ function [X0,X1,Y0,Y1]=GenerateBBox(x,y,r,c,window)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
+kernelX = [0, 0, 0; -1, 0, 1; 0,  0, 0];
+kernelY = [0, 1, 0;  0, 0, 0; 0, -1, 0];
 
-X0=ClampImg(round(x*c)-window,1,c);
-Y0=ClampImg(round(y*r)-window,1,r);
-X1=ClampImg(round(x*c)+window,1,c);
-Y1=ClampImg(round(y*r)+window,1,r);
+I_gx = imfilter(I, kernelX, 'same') / 2;
+I_gy = imfilter(I, kernelY, 'same') / 2;
+
+I_g = struct('fx', I_gx, 'fy', I_gy);
 
 end

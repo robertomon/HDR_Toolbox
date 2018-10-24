@@ -1,18 +1,17 @@
-function pivot = SplittingHistogram(histo)
+function imgOut = imFlip(img)
 %
+%        imgOut = imFlip(img)
 %
-%        pivot = SplittingHistogram(histo)
-%
+%       
+%        imFlip flips an image left-right or viceversa.
 %
 %        Input:
-%           -histo: an input histogram
+%           -img: an input image
 %
 %        Output:
-%           -pivot: the pivot value for splitting the histogram in two
-%           sub-histograms with similar sums:
-%              MIN { sum(histo(1:pivot)) - sum(histo((pivot+1):end)) }
-%
-%     Copyright (C) 2013  Francesco Banterle
+%           -imgOut: a flipped version of img
+% 
+%     Copyright (C) 2018 Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -28,17 +27,10 @@ function pivot = SplittingHistogram(histo)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-n     = length(histo);
-pivot = n;
-diff  = sum(histo) * 2;
+imgOut = img;
 
-for i=1:(n - 1)
-    s0 = sum(histo(1:i));
-    s1 = sum(histo((i + 1):end));
-    tmpDiff = abs(s1 - s0);
-    
-    if(tmpDiff < diff)
-        pivot = i;
-        diff  = tmpDiff;
-    end    
+for i=1:size(img,3)
+    imgOut(:,:,i) = fliplr(imgOut(:,:,i));    
+end
+
 end

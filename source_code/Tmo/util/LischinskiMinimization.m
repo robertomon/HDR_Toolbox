@@ -33,7 +33,17 @@ function [result,A] = LischinskiMinimization(L, g, W, LM_alpha, LM_lambda)
 %
 
 %init
+bInit = 0;
+
 if(~exist('W', 'var'))
+    bInit = 1;
+end
+
+if(isempty(W))
+    bInit = 1;
+end
+
+if(bInit)
     W = ones(size(L));
 end
 

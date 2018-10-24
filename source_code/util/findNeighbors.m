@@ -1,7 +1,7 @@
-function listOfNeighbors = FindNeighbours(i,r,c,tot,imgBin)
+function listOfNeighbors = findNeighbors(i,r,c,tot,imgBin)
 %
 %
-%        listOfNeighbors = FindNeighbours(i,r,c,tot,imgBin)
+%        listOfNeighbors = findNeighbors(i,r,c,tot,imgBin)
 %
 %
 %       Input:

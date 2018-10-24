@@ -26,6 +26,10 @@ function imgOut = pyrBlend(img1, img2, weight)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
+if(~isSameImage(img1, img2) || ~isSimilarImage(img1, weight))
+   error('pyrBlend: input images are different!'); 
+end
+
 col = size(img1, 3);
 
 p1 = pyrImg3(img1, @pyrLapGen);

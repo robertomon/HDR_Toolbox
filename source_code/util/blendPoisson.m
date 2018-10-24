@@ -1,7 +1,7 @@
-function imgOut = PoissonBlending(img1, img2, mask)
+function imgOut = blendPoisson(img1, img2, mask)
 %
 %
-%        imgOut = PoissonBlending(img1, img2, mask)
+%        imgOut = blendPoisson(img1, img2, mask)
 %
 %        Input:
 %           -img1:
@@ -26,22 +26,24 @@ function imgOut = PoissonBlending(img1, img2, mask)
 %     You should have received a copy of the GNU General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
-    I1 = img1 .* mask;
-    I2 = img2 .* (1 - mask);
 
-    kernelX = [0 0 0; -1 0 1; 0,  0 0];
-    kernelY = [0 1 0;  0 0 0; 0, -1 0];
-    G1 = struct('fx', imfilter(I1,kernelX,'same') / 2, 'fy', imfilter(I1, kernelY, 'same') / 2);
-    G2 = struct('fx', imfilter(I2,kernelX,'same') / 2, 'fy', imfilter(I2, kernelY, 'same') / 2);
+if(~isSameImage(img1, img2) || ~isSimilarImage(img1, weight))
+   error('pyrBlend: input images are different!'); 
+end
 
-    kernelX = [0 0 0; -1 1 0; 0  0 0];
-    kernelY = [0 0 0;  0 1 0; 0 -1 0];    
-    dx1 = imfilter(G1.fx, kernelX, 'same');
-    dy1 = imfilter(G1.fy, kernelY, 'same');
-    dx2 = imfilter(G2.fx, kernelX, 'same');
-    dy2 = imfilter(G2.fy, kernelY, 'same');
-    
-    divG = dx1 + dy1 + dx2 + dy2;
+imgOut = zeros(size(img1));
 
-    imgOut = PoissonSolver(divG);
+for i=1:size(img1, 3)
+    I1 = img1(:,:,i) .* mask;
+    I2 = img2(:,:,i) .* (1 - mask);
+
+    G1 = computeGradients(I1);
+    G2 = computeGradients(I2);
+
+    [div_I1, ~, ~] = computeDivergence(G1.fx, G1.fy);
+    [div_I2, ~, ~] = computeDivergence(G2.fx, G2.fy);
+
+    imgOut(:,:,i) = PoissonSolver(div_I1 + div_I2);
+end
+
 end

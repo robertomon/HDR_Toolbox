@@ -1,15 +1,17 @@
-function I_g = CalculateGradients(I)
+function H = computeLaplacianKernel(sigma)
 %
 %
-%       I_g = CalculateGradients(I)
+%      H = computeLaplacianKernel(sigma)
+%
 %
 %       Input:
-%           -I: an input image
+%           -sigma: the input image
 %
 %       Output:
-%           -I_g: gradients of I
+%           -H: 
 %
-%     Copyright (C) 2011-15  Francesco Banterle
+%
+%     Copyright (C) 2011-16  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -25,12 +27,17 @@ function I_g = CalculateGradients(I)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-kernelX = [0, 0, 0; -1, 0, 1; 0,  0, 0];
-kernelY = [0, 1, 0;  0, 0, 0; 0, -1, 0];
+%Laplacian mask
+window = round(sigma * 7) + 1;
+window_half = round(window / 2);
 
-I_gx = imfilter(I, kernelX, 'same') / 2;
-I_gy = imfilter(I, kernelY, 'same') / 2;
+[X, Y] = meshgrid((-window_half):window_half, (-window_half):window_half);
 
-I_g = struct('fx', I_gx, 'fy', I_gy);
+sigma_sq_2 = 2 * sigma^2;
+
+p1 = (1 - (X.^2 + Y.^2) / sigma_sq_2);
+p2 = exp( - (X.^2 + Y.^2) / sigma_sq_2);
+w = (-1 / (pi * sigma^4));
+H =  w * p1 .* p2;
 
 end

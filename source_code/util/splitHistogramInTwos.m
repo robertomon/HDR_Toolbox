@@ -1,17 +1,18 @@
-function imgLap = LaplacianFilter(img, sigma)
+function pivot = splitHistogramInTwos(histo)
 %
 %
-%       imgBlur = LaplacianFilter(img, sigma)
+%        pivot = splitHistogramInTwos(histo)
 %
 %
-%       Input:
-%           -img: the input image
+%        Input:
+%           -histo: an input histogram
 %
-%       Output:
-%           -imgLap: a filtered image
+%        Output:
+%           -pivot: the pivot value for splitting the histogram in two
+%           sub-histograms with similar sums:
+%              MIN { sum(histo(1:pivot)) - sum(histo((pivot+1):end)) }
 %
-%
-%     Copyright (C) 2011-16  Francesco Banterle
+%     Copyright (C) 2013  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -27,8 +28,21 @@ function imgLap = LaplacianFilter(img, sigma)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-H = LaplacianKernel(sigma);
+n  = length(histo);
+pivot = n;
+diff = sum(histo) * 2;
 
-imgLap = imfilter(img, H, 'replicate');
+if(diff > 0)
+    for i=1:(n - 1)
+        s0 = sum(histo(1:i));
+        s1 = sum(histo((i + 1):end));
+        tmpDiff = abs(s1 - s0);
+
+        if(tmpDiff < diff)
+            pivot = i;
+            diff  = tmpDiff;
+        end    
+    end
+end
 
 end

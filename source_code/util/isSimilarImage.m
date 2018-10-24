@@ -1,17 +1,12 @@
-function imgOut = CleanWell(img, iter)
+function bSimilar = isSimilarImage(img1, img2)
 %
 %
-%       imgOut = CleanWell(img,iter)
+%       bSimilar = isSimilarImage(img1, img2)
 %
 %
-%        Input:
-%           -img: image to be filtered
-%           -iter: number of iteration of the filter
+%       This image checks if two images are the same.
 %
-%        Output:
-%           -imgOut: image without single pixels
-%
-%     Copyright (C) 2011  Francesco Banterle
+%     Copyright (C) 2018  Francesco Banterle
 % 
 %     This program is free software: you can redistribute it and/or modify
 %     it under the terms of the GNU General Public License as published by
@@ -26,19 +21,10 @@ function imgOut = CleanWell(img, iter)
 %     You should have received a copy of the GNU General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
-tmp = bwmorph(img, 'clean');
-img = tmp;
 
-for i=1:iter
-    tmp = bwmorph(tmp, 'erode');
-    tmp = bwmorph(tmp, 'clean');
-end
+[r1, c1, ~] = size(img1);
+[r2, c2, ~] = size(img2);
 
-for i=1:(iter + 2)
-    tmp = bwmorph(tmp, 'dilate');
-end
-
-imgOut = tmp .* img;
-imgOut = bwmorph(imgOut, 'clean');
+bSimilar = (r1 == r2) & (c1 == c2);
 
 end

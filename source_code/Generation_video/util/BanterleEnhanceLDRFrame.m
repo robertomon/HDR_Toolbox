@@ -94,7 +94,7 @@ function frameOut = BanterleEnhanceLDRFrame(img1, img2, img_back_hdr, blendMode)
 
         switch blendMode
             case 'poisson'
-                tmp3 = 2.^PoissonBlending(tmp1, tmp2, mask);
+                tmp3 = 2.^blendPoisson(tmp1, tmp2, mask);
                 
             case 'linear'
                 tmp3 = 2.^(tmp1 .* mask + (1 - mask) .* tmp2) - 1;
