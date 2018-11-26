@@ -83,16 +83,16 @@ k2 = (1 - k1) * w + k1;
 
 Ld = exp(KK_c2 * k2 .* (L_log - mu) + mu);
 
-%Percentile clamping
-maxLd = MaxQuart(Ld, 0.99);
+%robust min and max
 minLd = MaxQuart(Ld, 0.01);
+maxLd = MaxQuart(Ld, 0.99);
 
-Ld(Ld > maxLd) = maxLd;
 Ld(Ld < minLd) = minLd;
+Ld(Ld > maxLd) = maxLd;
 
 Ld = (Ld - minLd) / (maxLd - minLd);
 
-%Changing luminance
+%change luminance
 imgOut = ChangeLuminance(img, L, Ld);
 imgOut = RemoveSpecials(imgOut);
 
