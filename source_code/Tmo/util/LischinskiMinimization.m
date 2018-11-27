@@ -36,7 +36,7 @@ function [result,A] = LischinskiMinimization(L, g, W, LM_alpha, LM_lambda)
 bInit = 0;
 
 if(~exist('W', 'var'))
-    bInit = 1;
+    W = [];
 end
 
 if(isempty(W))
