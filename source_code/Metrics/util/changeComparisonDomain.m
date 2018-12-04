@@ -28,8 +28,6 @@ function [data_out, bNeg] = changeComparisonDomain(data_in, comparison_domain)
 %     You should have received a copy of the GNU General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
-data_out = 1.0;
-bNeg = 1;
 
 switch comparison_domain
     case 'lin'
