@@ -42,10 +42,10 @@ plot(x, lin_fun_deb(:,1), 'r', x, lin_fun_deb(:,2),'g', x, lin_fun_deb(:,3), 'b'
 
 disp('4) Estimate the CRF using MitsunagaNayarCRF');
 
-[lin_fun_mn, pp] = MitsunagaNayarCRF(stack, stack_exposure, -1, 256, 'Grossberg', false, 15);
+[lin_fun_mn, pp] = MitsunagaNayarCRF(stack, stack_exposure, -1, 256, 'Grossberg', 0, 100);
 
 h = figure(2);
-set(h, 'Name', 'Robertson CRF method');
+set(h, 'Name', 'Mitsunaga Nayar CRF method');
 plot(x, lin_fun_mn(:,1), 'r', x, lin_fun_mn(:,2),'g', x, lin_fun_mn(:,3), 'b');
 
 %
