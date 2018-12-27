@@ -33,45 +33,45 @@ check3Color(img);
 [r,c,col] = size(img);
 imgOut = zeros(r,c,col);
 
-if(~exist('conv_whitePoint','var'))
+if(~exist('conv_whitePoint', 'var'))
     conv_whitePoint = [1,1,1];
 end
 
-coeff = [1,15,3];
+coeff = [1, 15, 3];
 
-n_norm = conv_whitePoint*(coeff');
+n_norm = conv_whitePoint * (coeff');
 
-U_n_prime = 4*conv_whitePoint(1)/n_norm;
-V_n_prime = 9*conv_whitePoint(2)/n_norm;
+U_n_prime = 4 * conv_whitePoint(1) / n_norm;
+V_n_prime = 9 * conv_whitePoint(2) / n_norm;
 
-if(inverse==0)%forward transform
+if(inverse == 0)%forward transform
     c1 = (6/29)^3;
     c2 = (29/3)^3;  
    
     %L channel
     Y_scaled = img(:,:,2)/conv_whitePoint(2);
     L_star = zeros(size(Y_scaled));
-    L_star(Y_scaled<=c1) =     Y_scaled(Y_scaled<=c1)*c2;
-    L_star(Y_scaled> c1) = 116*Y_scaled(Y_scaled> c1).^(1/3)-16;
+    L_star(Y_scaled <= c1) = Y_scaled(Y_scaled <= c1) * c2;
+    L_star(Y_scaled> c1) = 116 * Y_scaled(Y_scaled> c1).^(1/3) - 16;
     
     imgOut(:,:,1) = L_star;
 
-    norm = img(:,:,1)+15*img(:,:,2)+3*img(:,:,3);
+    norm = img(:,:,1) + 15 * img(:,:,2) + 3 * img(:,:,3);
     
     %U channel
-    U_prime = 4*img(:,:,1)./norm;
-    imgOut(:,:,2) = 13*L_star.*(U_prime-U_n_prime);
+    U_prime = 4 * img(:,:,1) ./ norm;
+    imgOut(:,:,2) = 13 * L_star .* (U_prime - U_n_prime);
     
     %V channel
-    V_prime = 9*img(:,:,2)./norm;
-    imgOut(:,:,3) = 13*L_star.*(V_prime-V_n_prime);   
+    V_prime = 9 * img(:,:,2) ./ norm;
+    imgOut(:,:,3) = 13 * L_star .* (V_prime - V_n_prime);   
 end
 
-if(inverse==1)%inverse transform
+if(inverse == 1)%inverse transform
     c1 = (3/29)^3;
     
-    U_prime = img(:,:,2)./(13*img(:,:,1))+U_n_prime;
-    V_prime = img(:,:,3)./(13*img(:,:,1))+V_n_prime;
+    U_prime = img(:,:,2) ./ (13 * img(:,:,1)) + U_n_prime;
+    V_prime = img(:,:,3) ./ (13 * img(:,:,1)) + V_n_prime;
     
     L_star = img(:,:,1);
     Y = zeros(size(L_star));
