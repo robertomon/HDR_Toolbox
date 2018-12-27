@@ -3,7 +3,7 @@ function y = TsFerwerda(x)
 %       y = TsFerwerda(x)
 %
 %
-%       The gamma function used in Ferwerda TMO for Photopic levels
+%       The gamma function used in Ferwerda TMO for Scotopic levels
 %
 %       Input:
 %           -x: a value
