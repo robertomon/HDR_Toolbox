@@ -5,13 +5,12 @@ function imgOut = SchlickTMO(img, s_mode, p, nBit, L0, k)
 %
 %       Input:
 %           -img: input HDR image.
-%           -s_mode: mode
-%           -p: model parameter which takes values in [1,+inf].
+%           -s_mode: parameters selection: 'manual', 'automatic', and 'nonuniform'.
+%           -p: a model parameter which takes values in [1,+inf].
 %           -nBit: number of bit for the quantization step.
 %           -L0: lowest value of the LDR monitor that can be perceived
 %           by the HVS.
 %           -k: a value in [0,1].
-%           -Mode = { 'standard', 'calib', 'nonuniform' }
 %
 %       Output
 %           -imgOut: tone mapped image

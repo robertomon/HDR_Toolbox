@@ -67,8 +67,8 @@ C = 70.0 / 255.0; %As reported in Raman and Chaudhuri Eurographics 2009 short pa
 K1 = 1.0; %As reported in Raman and Chaudhuri Eurographics 2009 short paper
 K2 = 1.0 / 10.0; %As reported in Raman and Chaudhuri Eurographics 2009 short paper
 sigma_s = K1 * min([r, c]);
-imageStackMax = max(imageStack(:));
 imageStackMin = min(imageStack(:));
+imageStackMax = max(imageStack(:));
 sigma_r = K2 * (imageStackMax - imageStackMin);
 
 %Computation of weights for each image
