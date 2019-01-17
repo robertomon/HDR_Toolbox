@@ -63,10 +63,11 @@ end
 %Luminance channel
 L = lum(img);
 
-%compute max luminance
-LMax = MaxQuart(L, 0.99);
 %comput min luminance
 LMin = MaxQuart(L(L > 0.0), 0.01);
+
+%compute max luminance
+LMax = MaxQuart(L, 0.99);
 
 %mode selection
 switch s_mode
