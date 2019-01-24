@@ -30,10 +30,16 @@ imgOut = 0;
 fid = fopen(filename,'r');
 
 %is it a RGBE file?
-line = fgetl(fid);
-if(isempty(strfind(line,'#?')))
+while(~feof(fid))
+    line = fgetl(fid);
+    if(contains(line,'#?'))
+        break;
+    end
+end
+
+if(feof(fid))
     fclose(fid);
-    return;
+    return; 
 end
 
 line = fgetl(fid);
@@ -65,12 +71,12 @@ while(~isempty(line))
     line = fgetl(fid);
 end
 
-%reading the height and the width of the image
+%read the height and the width of the image
 [len, count] = fscanf(fid,'-Y %d +X %d',2);
 line = fgetl(fid);
 %[retChar, count] = fread(fid,1,'uint8');
 
-%reading pixels...
+%read pixels...
 [tmpImg, count] = fread(fid,inf,'uint8');
 
 height = len(1);
