@@ -73,7 +73,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
     dims[1] = width;
     dims[2] = channels;
 
-    plhs[0] = mxCreateNumericArray(channels, dims, mxDOUBLE_CLASS, mxREAL);
+    plhs[0] = mxCreateNumericArray(3, dims, mxDOUBLE_CLASS, mxREAL);
     double *outMatrix = mxGetPr(plhs[0]);
 
     for (int i = 0; i < image.num_channels; i++) {
