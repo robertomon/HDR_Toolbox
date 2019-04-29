@@ -13,12 +13,34 @@ Title: HDR Toolbox for Matlab
 
 Version: 1.1.0
 
+REFERENCE:
+==========
+When you use this work for your research, please DO NOT reference the URL of this website as many people wrongly do.
+Please reference the book in your work/papers:
+
+@book{Banterle:2017,
+ 
+ author = {Banterle, Francesco and Artusi, Alessandro and Debattista, Kurt and Chalmers, Alan},
+ 
+ title = {Advanced High Dynamic Range Imaging (2nd Edition)},
+ 
+ year = {2017},
+ 
+ month={July},
+ 
+ isbn = {9781498706940},
+ 
+ publisher = {AK Peters (CRC Press)},
+ 
+ address = {Natick, MA, USA},
+ 
+} 
+
 Contact:
 ========
 e-mail: support@advancedhdrbook.com
 
 facebook: https://www.facebook.com/pages/Advanced-High-Dynamic-Range-Imaging-Book/166905003358276
-
 
 HOW TO INSTALL:
 ===============
@@ -52,24 +74,3 @@ NOTE ON PULL REQUESTS:
 =====================
 Please, send your pull requests to the develop branch.
 
-REFERENCE:
-==========
-Please reference the book in your work or papers if you use this toolbox:
-
-@book{Banterle:2017,
- 
- author = {Banterle, Francesco and Artusi, Alessandro and Debattista, Kurt and Chalmers, Alan},
- 
- title = {Advanced High Dynamic Range Imaging (2nd Edition)},
- 
- year = {2017},
- 
- month={July},
- 
- isbn = {9781498706940},
- 
- publisher = {AK Peters (CRC Press)},
- 
- address = {Natick, MA, USA},
- 
-} 
