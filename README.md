@@ -15,7 +15,7 @@ Version: 1.1.0
 
 REFERENCE:
 ==========
-When you use this work for your research, please DO NOT reference the URL of this website as many people wrongly do.
+When you use the HDR Toolbox for your research, please DO NOT reference the URL of this website as many people wrongly do.
 Please reference the book in your work/papers:
 
 @book{Banterle:2017,
