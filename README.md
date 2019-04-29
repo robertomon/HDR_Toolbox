@@ -52,23 +52,26 @@ HOW TO INSTALL:
 
 4) Write the command installHDRToolbox in the Command Window, and wait for the installation process to end.
 
+NOTE ON EXPANSION OPERATORS (INVERSE/REVERSE TONE MAPPING):
+=====================
+The majority of EOs require to have as input LDR/SDR images that are NORMALZIED (i.e., in the range [0,1])
+and LINEARIZED. To be LINEARIZED means that the camera response function (CRF) or the gamma encoding has been removed.
+This operation is MANDATORY in order to generate FAIR comparisons.
+
+NOTE1: Please DO use the gammaRemoval parameter to remove gamma encoding if you do not have the CRF of the input image. Note
+that this is an approximation.
+
+NOTE2: RAW files do not require this step because they are already linear. Therefore, for ONLY these
+images set gammaRemoval = 1.0.
 
 NOTE ON TONE MAPPING:
 =====================
-The majority of TMOs return tone mapped images with linear values. This means that gamma encoding
-needs to be applied to the output of these TMOs before visualization or before writing tone mapped images
- on the disk; otherwise these images may appear dark.
-A few operators (e.g. Mertens et al.'s operator) return gamma encoded values,
-so there is no need to apply gamma to them; in this case a message (e.g. a Warning) is displayed
+The majority of TMOs return tone mapped images with linear values (i.e., withouth a CRF or gamma encoding). 
+This means that gamma encoding needs to be applied to the output of these TMOs before visualization or before 
+writing tone mapped images on the disk; otherwise these images will appear dark.
+A few operators (e.g., Mertens et al.'s operator) return gamma encoded values,
+so there is no need to apply gamma to them; in this case a message (e.g., a Warning) is displayed
 after tone mapping alerting that there is no need of gamma encoding.
-
-NOTE ON EXPANSION OPERATORS (INVERSE/REVERSE TONE MAPPING):
-=====================
-The majority of EOs require to have as input LDR images in the range [0,1] that are LINEARIZED.
-This means that the camera response function (CRF) or the gamma encoding has been removed.
-This operation is MANDATORY in order to generate fair comparisons; please do use the gammaRemoval
-parameter to remove gamma if you do not have the CRF of the input image. RAW files do not require 
-this step because they are already linear.
 
 NOTE ON PULL REQUESTS:
 =====================
