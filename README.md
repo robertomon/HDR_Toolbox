@@ -36,12 +36,6 @@ Please reference the book in your work/papers:
  
 } 
 
-Contact:
-========
-e-mail: support@advancedhdrbook.com
-
-facebook: https://www.facebook.com/pages/Advanced-High-Dynamic-Range-Imaging-Book/166905003358276
-
 HOW TO INSTALL:
 ===============
 1) Unzip the file HDRToolbox.zip in a FOLDER on your PC/MAC
@@ -77,3 +71,8 @@ NOTE ON PULL REQUESTS:
 =====================
 Please, send your pull requests to the develop branch.
 
+Contact:
+========
+e-mail: support@advancedhdrbook.com
+
+facebook: https://www.facebook.com/pages/Advanced-High-Dynamic-Range-Imaging-Book/166905003358276
