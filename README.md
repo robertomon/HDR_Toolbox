@@ -69,7 +69,7 @@ after tone mapping alerting that there is no need of gamma encoding.
 
 NOTE ON PULL REQUESTS:
 =====================
-Please, send your pull requests to the develop branch.
+Please, send your pull requests to the develop branch. Requests sent to the Master branch will be ignored.
 
 Contact:
 ========
