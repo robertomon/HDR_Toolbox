@@ -52,7 +52,7 @@ if(~exist('sigma_r', 'var'))
 end
 
 if(~exist('bilateral_type', 'var'))
-   bilateral_type = 'approx_bil_grid'; 
+   bilateral_type = 'approx_importance'; 
 end
 
 if(~exist('bilateral_domain', 'var'))
@@ -95,7 +95,7 @@ try
             imgFil = bilateralFilterFull(img_log, [], sigma_s, sigma_r);
     end
 catch exception
-    disp(['BilateralSeparation:', exception]);
+    disp(['BilateralSeparation:', exception.message]);
 end
 
 switch bilateral_domain

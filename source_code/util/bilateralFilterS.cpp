@@ -4,7 +4,7 @@
  * This file writes a $n \times m \times 3$ matrix into an exr file
  *
  * written Francesco Banterle
- * (c) 2015
+ * (c) 2015-2019
  *
  *========================================================*/
 /* $Revision: 0.1 $ */
@@ -107,6 +107,7 @@ void bilateralFilterS(double *img_in, double *img_edge, double *out, int width, 
     int tile_sq = tile * tile;
     int *x = new int [nSamples * tile_sq];
     int *y = new int [nSamples * tile_sq];
+    float C_PI_2 = C_PI * 2.0f;
     
     for(int i=0; i<tile; i++) {
         int tmp = i * tile;
@@ -114,15 +115,17 @@ void bilateralFilterS(double *img_in, double *img_edge, double *out, int width, 
             int index = tmp + j;
             for(int k=0; k<nSamples; k++) {
 
-                float u;
+                float u1, u2;
                 do {
-                    u = Random(m());
-                } while(u < 0.0f);
+                    u1 = Random(m());
+                } while(u1 < 0.0f);
 
-                float r_sq = -logf(u) * sigma_s_sq_2;                
-                float r = sqrtf(MAX(r_sq, 0.0f));
+                u2 = Random(m());
+                
+                float r_sq = -logf(u1) * sigma_s_sq_2;                
+                float r = sqrtf(MAX(r_sq, 0.0f)) * cosf(u2 * C_PI_2);
 
-                float phi = Random(m()) * C_PI * 2.0f;
+                float phi = Random(m()) * C_PI_2;
 
                 x[index + k] = int(cosf(phi) * r);
                 y[index + k] = int(sinf(phi) * r);
