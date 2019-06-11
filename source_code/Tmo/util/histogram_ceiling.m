@@ -32,22 +32,36 @@ tolerance = sum(H) * 0.025;
 trimmings = 0;
 val = 1;
 n = length(H);
+bar(H);
+
+trimmed_vec = [];
 
 while((trimmings <= tolerance) & val)
     trimmings = 0;
     T = sum(H);
-    
     if(T < tolerance)
         val = 0;
     else
         ceiling = T * k;
+        bTrimmed = 0;
         for i=1:n
             if(H(i) > ceiling)
                 trimmings = trimmings + H(i) - ceiling;
                 H(i) = ceiling;
+                bTrimmed = 1;
             end
         end
+        trimmed_vec = [trimmed_vec, bTrimmed];
     end
+    
+    if(length(trimmed_vec) >= 2)
+        b1 = (trimmed_vec(end) == 0);
+        b2 = (trimmed_vec(end - 1) == 0);
+        if(b1 & b2)
+            val = 0;
+        end
+    end
+    
 end
 
 end

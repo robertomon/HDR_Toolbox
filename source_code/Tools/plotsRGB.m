@@ -40,10 +40,10 @@ img_cielab(:,:,1) = img_cielab_tmp;
 points_lab = reshape(img_cielab, r * c, col);
 points = reshape(img, r * c, col);
 
-%creating the mesh
+%create the mesh
 dt = DelaunayTri(points_lab);
 
-%creating convex hull
+%create convex hull
 hullFacets = convexHull(dt);
 
 trisurf(hullFacets, dt.X(:,1), dt.X(:,2), dt.X(:,3), 'FaceColor', 'interp', 'FaceVertexCData', points ,'EdgeColor', 'none');
