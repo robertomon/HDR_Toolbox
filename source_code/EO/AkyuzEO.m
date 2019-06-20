@@ -6,7 +6,8 @@ function imgOut = AkyuzEO(img, maxOutput, a_gamma, gammaRemoval)
 %        Input:
 %           -img: input LDR image with values in [0,1]
 %           -maxOutput: the maximum output luminance value defines the 
-%           -a_gamma: this value defines the appearance
+%           -a_gamma: this value defines the appearance, for well-exposed
+%                              content this value can be set to 1.0
 %           -gammaRemoval: the gamma value to be removed if known
 %
 %        Output:
@@ -32,7 +33,7 @@ check13Color(img);
 
 checkIn01(img);
 
-if(maxOutput < 0.0)
+if(maxOutput <= 0.0)
     error('maxOutput needs to be a positive value');
 end
 
@@ -43,20 +44,17 @@ else
     'img is assumed to be linear.']);
 end
 
-if(a_gamma < 0.0)
+if(a_gamma <= 0.0)
     error('a_gamma needs to be a positive value');
 end
 
-%
-%
-%
 
 L = lum(img);
-L_max = max(L(:));
 L_min = min(L(:));
+L_max = max(L(:));
 Lexp = maxOutput * (((L - L_min) / (L_max - L_min)).^a_gamma);
 
-%Removing the old luminance
+%remove the old luminance
 imgOut = ChangeLuminance(img, L, Lexp);
 
 end
