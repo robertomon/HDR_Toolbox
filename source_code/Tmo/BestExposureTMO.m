@@ -1,4 +1,4 @@
-function imgOut = BestExposureTMO(img)
+function [imgOut, exposure_value] = BestExposureTMO(img)
 %
 %        imgOut = BestExposureTMO(img)
 %
@@ -10,6 +10,7 @@ function imgOut = BestExposureTMO(img)
 %
 %        Output:
 %           -imgOut: a tone mapped image
+%           -exposure_value: the exposure value set
 % 
 %     Copyright (C) 2010-15 Francesco Banterle
 % 
@@ -27,13 +28,13 @@ function imgOut = BestExposureTMO(img)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
-%is it a gray-scale/three color channels image?
 check13Color(img);
-
 checkNegative(img);
 
 fstops = ExposureHistogramSampling(img, 8, 0);
 
-imgOut = ClampImg(img * 2^(fstops(1)-2), 0.0, 1.0);
+exposure_value = 2^(fstops(1) - 2);
+
+imgOut = ClampImg(img * exposure_value, 0.0, 1.0);
 
 end
