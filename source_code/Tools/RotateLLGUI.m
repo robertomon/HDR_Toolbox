@@ -27,11 +27,16 @@ function imgOut = RotateLLGUI(img)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 
+
+if(size(img, 2) > 2048)
+   img = imresize(img, [1024, 2048], 'bilinear');
+end
+
+[r, c, col] = size(img);
+
 figure(1);
 imshow(img);
 hold on;
-
-[r, c, col] = size(img);
 
 r_h = round(r / 2);
 line([1, c], [r_h, r_h], 'Color', 'r', 'LineWidth', 4);
@@ -44,28 +49,27 @@ plot(x0, y0, 'r+');
 
 plot(x1, y1, 'r+');
 
-theta1 = ( (x1 - c/2) / c ) * pi;
-phi1   = ( (r/2 - y1) / r ) * pi * 0.5;
+%theta1 = ( (x1 - c/2) / c ) * pi;
+%phi1   = ( (r/2 - y1) / r ) * pi * 0.5;
 
+[theta1, phi1] = getThetaPhi(x1,y1,r,c);
 vec1 = PolarVec3(theta1, phi1);
 
-thetar1 = ( (x0 - c/2) / c ) * pi;
-phir1   = ( (r/2 - y1) / r ) * pi * 0.5;
-
+%thetar1 = ( (x0 - c/2) / c ) * pi;
+%phir1   = ( (r/2 - y1) / r ) * pi * 0.5;
+[thetar1, phir1] = getThetaPhi(x0,y1,r,c);
 vecr1 = PolarVec3(thetar1, phir1);
 
-sign = -1.0;
-if(x0 > x1)
-    sign = 1.0;
-end
+M = getMatrixForVectorRotation(vec1, vecr1);
 
-q = getQuaternion(cross(vec1, vecr1), sign * acos(dot(vec1, vecr1)));
-
-M = RotationMatrixFromQuaternion(q);
+% disp(M)
+% disp(vec1);
+% disp(vecr1);
+% disp((M*vec1')');
 
 D = LL2Direction(r, c);
 
-D_rot = RotateMap(D, M);
+D_rot = RotateMap(D, M');
 
 [X1, Y1] = Direction2LL(D_rot, r, c);
 [X, Y] = meshgrid(1:c, 1:r);
@@ -78,81 +82,33 @@ for i=1:col
 end
 
 imshow(imgOut);
-    
-% [phi, theta, psi] = getEulerFromQuaternion(q);
-% 
-% phi = rad2grad(phi);
-% theta = rad2grad(theta);
-% psi = rad2grad(psi);
 
 end
 
+function [theta, phi] = getThetaPhi(x,y,r,c)
+    phi   =  pi * ((x / c) * 2 - 1) - pi * 0.5;
+    theta =  pi * (y / r);
+end
 
-function q = getQuaternion(v, angle)
 
-    angle = angle / 2;
-
-	sinAngle = sin(angle);
-
-    q = zeros(4, 1);
-
-    q(1) = cos(angle);
-    q(2) = (sinAngle * cos(v(1)));
-    q(3) = (sinAngle * cos(v(2)));
-    q(4) = (sinAngle * cos(v(3)));
+function M = getMatrixForVectorRotation(u, v)
+    a = cross(u, v);
+    a = a / norm(a);
+    
+    alpha = acos(dot(u, v));
+    c = cos(alpha);
+    s = sin(alpha);
+   
+    ci = 1.0 - c;
+    
+    M = [a(1)^2*ci + c, a(1)*a(2)*ci - s * a(3), a(1)*a(3)*ci+s*a(2);...
+         a(1)*a(2) * ci + s * a(3), a(2)^2 * ci + c, a(2)*a(3)*ci-s*a(1);...
+         a(1)*a(3) * ci - s*a(2), a(1)*a(3)*ci+s*a(1), a(3)^2 * ci + c];    
 end
 
 function D_rot = RotateMap(D, M)
     D_rot = zeros(size(D));
-    D_rot(:,:,1) = D(:,:,1) * M(1,1) + D(:,:,2) * M(2,1) + D(:,:,3) * M(3,1);
-    D_rot(:,:,2) = D(:,:,1) * M(1,2) + D(:,:,2) * M(2,2) + D(:,:,3) * M(3,2);
-    D_rot(:,:,3) = D(:,:,1) * M(1,3) + D(:,:,2) * M(2,3) + D(:,:,3) * M(3,3);
+    D_rot(:,:,1) = D(:,:,1) * M(1,1) + D(:,:,2) * M(1,2) + D(:,:,3) * M(1,3);
+    D_rot(:,:,2) = D(:,:,1) * M(2,1) + D(:,:,2) * M(2,2) + D(:,:,3) * M(2,3);
+    D_rot(:,:,3) = D(:,:,1) * M(3,1) + D(:,:,2) * M(3,2) + D(:,:,3) * M(3,3);
 end
-
-function M = RotationMatrixFromQuaternion(q)
-     qx_sq = q(2) * q(2);
-     qy_sq = q(3) * q(3);
-     qz_sq = q(4) * q(4);
-
-    M(1,1) = 1.0 - 2.0 * (qz_sq + qy_sq);
-    M(1,2) = 2.0 * (q(2) * q(3) - q(1) * q(4));
-    M(1,3) = 2.0 * (q(2) * q(4) + q(1) * q(3));
-
-    M(2,1) = 2.0 * (q(2) * q(3) + q(1) * q(4));
-    M(2,2) = 1.0 - 2.0 * (qx_sq + qz_sq);
-    M(2,3) = 2.0 * (q(3) * q(4) - q(1) * q(2));
-
-    M(3,1) = 2.0 * (q(2) * q(4) - q(1) * q(3));
-    M(3,2) = 2.0 * (q(3) * q(4) + q(1) * q(2));
-    M(3,3) = 1.0 - 2.0 * (qx_sq + qy_sq);
-end
-% 
-% function g = rad2grad(r)
-%     g = (r * 180) / pi;
-% end
-% 
-% 
-% function [phi, theta, psi] = getEulerFromQuaternion(q)
-% 
-% phi = atan2(2 * (q(1) * q(2) + q(3) * q(4)), 1 - 2 * (q(2)^2 + q(3)^2));
-% 
-% theta = asin(2 * (q(1) * q(3) - q(4) * q(2)));
-% 
-% psi = atan2(2 * (q(1) * q(4) + q(2) * q(3)), 1 - 2 * (q(3)^2 + q(4)^2)); 
-% 
-% end
-
-% function M = SkewSymmetricMatrix(v)
-% 
-% M = zeros(3, 3);
-% 
-% M(1, 2) = - v(3);
-% M(1, 3) =   v(2);
-% 
-% M(2, 1) =   v(3);
-% M(2, 3) = - v(1);
-% 
-% M(3, 1) = - v(2);
-% M(3, 2) =   v(1);
-% 
-% end
