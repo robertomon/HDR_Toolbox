@@ -1,4 +1,4 @@
-eee%
+%
 %		 imgOut = bilateralFilterS(img, imgEdges, sigma_s, sigma_r)
 %
 %        This function implements a bilateral filter without
